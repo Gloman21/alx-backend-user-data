@@ -13,8 +13,7 @@ from typing import List, TypeVar
 class BasicAuth(Auth):
     """Basic Authentication Class"""
 
-    def extract_base64_authorization_header(self, authorization_header: str
-                                            ) -> str:
+    def extract_base64_authorization_header(self, authorization_header: str) -> str:
         """
         Extracts the Base64 encoded authorization header from the given header.
         """
@@ -33,15 +32,12 @@ class BasicAuth(Auth):
         # Extract and return the Base64 encoded authorization header
         return authorization_header[6:]
 
-    def decode_base64_authorization_header(self, base64_authorization_header:
-                                           str) -> str:
+    def decode_base64_authorization_header(self, base64_authorization_header:str) -> str:
         """
         Decodes a base64 encoded authorization header.
         """
         try:
-            if base64_authorization_header is None:
-                return None
-            elif not isinstance(base64_authorization_header, str):
+            if base64_authorization_header is None or not isinstance(base64_authorization_header, str):
                 return None
             utf8_encoded_string = base64_authorization_header.encode('utf-8')
             coded_string = base64.b64decode(utf8_encoded_string)
@@ -49,8 +45,7 @@ class BasicAuth(Auth):
         except (binascii.Error, UnicodeDecodeError):
             return None
 
-    def extract_user_credentials(self, decoded_base64_authorization_header: str
-                                 ) ->(str, str):
+    def extract_user_credentials(self, decoded_base64_authorization_header: str) -> (str, str): # type: ignore
         """
         Extracts the user email and password from the Base64 decoded
         value of the authorization header.
@@ -64,8 +59,7 @@ class BasicAuth(Auth):
         user, pwd = decoded_base64_authorization_header.split(':', 1)
         return user, pwd
 
-    def user_object_from_credentials(self, user_email: str, user_pwd: str
-                                     ) -> TypeVar('User'):
+    def user_object_from_credentials(self, user_email: str, user_pwd: str) -> TypeVar('User'): # type: ignore
         """
         Validates the user credentials and returns the corresponding User
         object.
@@ -89,16 +83,13 @@ class BasicAuth(Auth):
 
         return None
 
-    def current_user(self, request=None) -> TypeVar('User'):
+    def current_user(self, request=None) -> TypeVar('User'): # type: ignore
         """
         Retrieves the current user from the request headers.
         """
         header = self.authorization_header(request)
-        base64_auth_h = self.extract_base64_authorization_header(
-            header)
-        decoded_auth_h = self.decode_base64_authorization_header(
-            base64_auth_h)
-        user_mail, user_pass = self.extract_user_credentials(
-            decoded_auth_h)
+        base64_auth_h = self.extract_base64_authorization_header(header)
+        decoded_auth_h = self.decode_base64_authorization_header(base64_auth_h)
+        user_mail, user_pass = self.extract_user_credentials(decoded_auth_h)
         user_res = self.user_object_from_credentials(user_mail, user_pass)
         return user_res
