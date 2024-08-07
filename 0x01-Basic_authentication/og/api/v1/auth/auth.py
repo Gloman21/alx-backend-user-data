@@ -16,15 +16,6 @@ class Auth:
         """
         Check if the given `path` is excluded from authentication based on
         the list of `excluded_paths`.
-
-        Parameters:
-            path (str): The path to check for authentication.
-            excluded_paths (List[str]): A list of paths that are excluded
-            from authentication.
-
-        Returns:
-            bool: True if the `path` is not excluded from authentication,
-            False otherwise.
         """
         if path is None or excluded_paths is None:
             return True
@@ -42,14 +33,6 @@ class Auth:
     def authorization_header(self, request=None) -> str:
         """
         Retrieves the authorization header from the given request object.
-
-        Args:
-            request (Optional[flask.Request]): The Flask request object.
-            Defaults to None.
-
-        Returns:
-            str: The authorization header value if it exists in the request
-            headers, otherwise None.
         """
         if request is None:
             return None
@@ -57,14 +40,8 @@ class Auth:
             return None
         return request.headers.get('Authorization', None)
 
-    def current_user(self, request=None) -> TypeVar('User'):
+    def current_user(self, request=None) -> TypeVar('User'): # type: ignore
         """
         Retrieves the current user from the given request.
-
-        Args:
-            request (Optional[Request]): The request object. Defaults to None.
-
-        Returns:
-            TypeVar('User'): The current user object.
         """
         return None

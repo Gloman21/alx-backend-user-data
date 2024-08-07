@@ -1,2 +1,2 @@
 #!/usr/bin/env python3
-"""Auth module"""
+"""API V1 module"""
