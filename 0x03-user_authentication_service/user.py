@@ -1,23 +1,19 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
+"""The `user` model's module.
+"""
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 
+
 Base = declarative_base()
 
+
 class User(Base):
-    """Represents a record from the `users` table.
-
-    Attributes:
-        id (int): The primary key, unique identifier for each user.
-        email (str): The user's email, must be non-nullable.
-        hashed_password (str): The user's hashed password, must be non-nullable.
-        session_id (str): Optional session ID for user session management.
-        reset_token (str): Optional token for password reset functionality.
+    """Represents a record from the `user` table.
     """
-    __tablename__ = 'users'
-
+    __tablename__ = "users"
     id = Column(Integer, primary_key=True)
-    email = Column(String, nullable=False)
-    hashed_password = Column(String, nullable=False)
-    session_id = Column(String, nullable=True)
-    reset_token = Column(String, nullable=True)
+    email = Column(String(250), nullable=False)
+    hashed_password = Column(String(250), nullable=False)
+    session_id = Column(String(250), nullable=True)
+    reset_token = Column(String(250), nullable=True)
